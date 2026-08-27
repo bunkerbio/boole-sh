@@ -1,0 +1,32 @@
+[workspace]
+members = [
+    "crates/engine-core",
+    "crates/engine-formats",
+    "crates/engine-kernels",
+    "crates/engine-quant",
+    "crates/engine-runtime",
+    "crates/engine-cli",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[workspace.dependencies]
+engine-core = { path = "crates/engine-core" }
+engine-formats = { path = "crates/engine-formats" }
+engine-kernels = { path = "crates/engine-kernels" }
+engine-quant = { path = "crates/engine-quant" }
+engine-runtime = { path = "crates/engine-runtime" }
+
+anyhow = "1"
+half = { version = "2", features = ["num-traits"] }
+memmap2 = "0.9"
+safetensors = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokenizers = "0.20"
+candle-core = "0.8"
+candle-nn = "0.8"

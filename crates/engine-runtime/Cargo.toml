@@ -1,0 +1,12 @@
+[package]
+name = "engine-runtime"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+engine-core.workspace = true
+engine-formats.workspace = true
+engine-kernels.workspace = true
+engine-quant.workspace = true
+anyhow.workspace = true

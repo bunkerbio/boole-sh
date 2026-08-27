@@ -1,0 +1,11 @@
+[package]
+name = "engine-kernels"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+engine-core.workspace = true
+anyhow.workspace = true
+candle-core.workspace = true
+candle-nn.workspace = true

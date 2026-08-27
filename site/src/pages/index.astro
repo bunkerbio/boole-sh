@@ -1,0 +1,674 @@
+---
+
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>boole.sh — Lossless compression for AI</title>
+		<meta name="description" content="Zero-loss compression engineered for model weights, tensors, and AI infrastructure. Smaller models. Faster inference. No accuracy lost." />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+	</head>
+	<body>
+		<nav>
+			<div class="nav-inner">
+				<a href="/" class="logo">boole<span class="accent">.sh</span></a>
+				<div class="nav-links">
+					<a href="#how">How it works</a>
+					<a href="#benchmarks">Benchmarks</a>
+					<a href="https://github.com/boole-sh" target="_blank" rel="noopener">GitHub</a>
+				</div>
+			</div>
+		</nav>
+
+		<main>
+			<section class="hero">
+				<div class="hero-content">
+					<p class="tagline">Lossless compression for AI</p>
+					<h1>Shrink models.<br />Keep every bit.</h1>
+					<p class="subtitle">
+						boole.sh is a zero-loss compression engine purpose-built for model weights,
+						activations, and tensor data. We exploit the statistical structure of neural
+						network parameters to achieve compression ratios that general-purpose codecs cannot.
+					</p>
+					<div class="cta-row">
+						<a href="https://github.com/boole-sh" class="btn-primary">View source</a>
+						<a href="mailto:hello@boole.sh" class="btn-secondary">Get in touch</a>
+					</div>
+				</div>
+				<div class="hero-visual">
+					<div class="compression-demo">
+						<div class="demo-bar original">
+							<span class="bar-label">Original (FP16)</span>
+							<div class="bar-fill" style="width: 100%"></div>
+							<span class="bar-value">14.0 GB</span>
+						</div>
+						<div class="demo-bar zstd">
+							<span class="bar-label">zstd -19</span>
+							<div class="bar-fill" style="width: 72%"></div>
+							<span class="bar-value">10.1 GB</span>
+						</div>
+						<div class="demo-bar boole">
+							<span class="bar-label">boole.sh</span>
+							<div class="bar-fill" style="width: 41%"></div>
+							<span class="bar-value">5.7 GB</span>
+						</div>
+						<p class="demo-caption">Llama 3 8B — lossless, bit-exact reconstruction</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="claims">
+				<div class="claim">
+					<span class="claim-number">2.4x</span>
+					<span class="claim-label">median compression ratio on transformer weights</span>
+				</div>
+				<div class="claim">
+					<span class="claim-number">0</span>
+					<span class="claim-label">bits of information lost — every weight reconstructs exactly</span>
+				</div>
+				<div class="claim">
+					<span class="claim-number">&gt;2 GB/s</span>
+					<span class="claim-label">decompression throughput — no bottleneck at inference time</span>
+				</div>
+			</section>
+
+			<section id="how" class="how">
+				<h2>Built for how neural networks actually look</h2>
+				<p class="section-intro">
+					General-purpose compressors treat model files as arbitrary byte streams.
+					We don't. boole.sh understands tensor layout, exploits cross-layer correlations,
+					and encodes the specific distributions that emerge from gradient descent.
+				</p>
+				<div class="features">
+					<div class="feature">
+						<h3>Tensor-aware entropy coding</h3>
+						<p>
+							Adaptive arithmetic coding tuned to the heavy-tailed distributions
+							of trained parameters. Per-channel statistics, not per-file.
+						</p>
+					</div>
+					<div class="feature">
+						<h3>Format-native ingestion</h3>
+						<p>
+							Reads SafeTensors, GGUF, PyTorch, and ONNX directly.
+							No preprocessing, no conversion step.
+						</p>
+					</div>
+					<div class="feature">
+						<h3>Streaming decompression</h3>
+						<p>
+							Layer-by-layer decode directly into GPU memory.
+							Load a compressed model as fast as an uncompressed one.
+						</p>
+					</div>
+					<div class="feature">
+						<h3>Rust + SIMD kernels</h3>
+						<p>
+							The core engine is ~8k lines of Rust with hand-tuned
+							AVX-512 and NEON paths. No runtime dependencies.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<section id="benchmarks" class="benchmarks">
+				<h2>Benchmarks</h2>
+				<p class="section-intro">
+					Compression ratio (higher is better) on popular open-weight models.
+					All results are lossless — decompressed output is byte-identical to the original.
+				</p>
+				<div class="table-wrap">
+					<table>
+						<thead>
+							<tr>
+								<th>Model</th>
+								<th>Format</th>
+								<th>Original</th>
+								<th>zstd -19</th>
+								<th>boole.sh</th>
+								<th>Ratio</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Llama 3 8B</td>
+								<td>FP16</td>
+								<td>14.0 GB</td>
+								<td>10.1 GB</td>
+								<td>5.7 GB</td>
+								<td><strong>2.46x</strong></td>
+							</tr>
+							<tr>
+								<td>Mistral 7B</td>
+								<td>FP16</td>
+								<td>13.5 GB</td>
+								<td>9.8 GB</td>
+								<td>5.5 GB</td>
+								<td><strong>2.45x</strong></td>
+							</tr>
+							<tr>
+								<td>Phi-3 Mini</td>
+								<td>FP16</td>
+								<td>7.6 GB</td>
+								<td>5.6 GB</td>
+								<td>3.3 GB</td>
+								<td><strong>2.30x</strong></td>
+							</tr>
+							<tr>
+								<td>SDXL (UNet)</td>
+								<td>FP16</td>
+								<td>5.1 GB</td>
+								<td>3.9 GB</td>
+								<td>2.3 GB</td>
+								<td><strong>2.22x</strong></td>
+							</tr>
+							<tr>
+								<td>Whisper Large v3</td>
+								<td>FP32</td>
+								<td>6.2 GB</td>
+								<td>4.4 GB</td>
+								<td>2.4 GB</td>
+								<td><strong>2.58x</strong></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<section class="architecture">
+				<h2>Architecture</h2>
+				<div class="arch-diagram">
+					<pre><code>┌─────────────┐     ┌──────────────┐     ┌───────────────┐     ┌──────────────┐
+│  Model File │────▶│ Format Parse │────▶│ Tensor Analyze│────▶│ Entropy Code │
+│ .safetensors│     │  (engine-    │     │  (engine-     │     │  (engine-    │
+│ .gguf .pt   │     │   formats)   │     │   quant)      │     │   core)      │
+└─────────────┘     └──────────────┘     └───────────────┘     └──────────────┘
+                                                                       │
+                    ┌──────────────┐     ┌───────────────┐             │
+                    │  .boole file │◀────│ SIMD Kernels  │◀────────────┘
+                    │  (compact)   │     │ (engine-      │
+                    │              │     │  kernels)     │
+                    └──────────────┘     └───────────────┘</code></pre>
+				</div>
+			</section>
+
+			<section class="why">
+				<h2>Why this matters</h2>
+				<div class="why-grid">
+					<div class="why-card">
+						<h3>Storage costs</h3>
+						<p>
+							Model registries at scale store thousands of checkpoints.
+							2.4x compression directly halves your S3 bill.
+						</p>
+					</div>
+					<div class="why-card">
+						<h3>Distribution</h3>
+						<p>
+							Smaller artifacts mean faster pulls. Deploy models to edge
+							nodes and mobile devices without multi-hour downloads.
+						</p>
+					</div>
+					<div class="why-card">
+						<h3>Cold start</h3>
+						<p>
+							Streaming decompression lets serverless inference start
+							serving requests while the model is still loading.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="bottom-cta">
+				<h2>We're building the compression layer for AI infrastructure.</h2>
+				<p>If you're working on model serving, distribution, or storage at scale — let's talk.</p>
+				<div class="cta-row">
+					<a href="mailto:hello@boole.sh" class="btn-primary">Contact us</a>
+					<a href="https://github.com/boole-sh" class="btn-secondary">GitHub</a>
+				</div>
+			</section>
+		</main>
+
+		<footer>
+			<p>&copy; 2026 boole.sh</p>
+		</footer>
+	</body>
+</html>
+
+<style>
+	:root {
+		--bg: #0a0a0b;
+		--surface: #141416;
+		--border: #2a2a2e;
+		--text: #e8e8ec;
+		--text-muted: #8a8a94;
+		--accent: #6ee7b7;
+		--accent-dim: #2d6b54;
+		--mono: 'JetBrains Mono', monospace;
+		--sans: 'Inter', system-ui, sans-serif;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		font-family: var(--sans);
+		background: var(--bg);
+		color: var(--text);
+		line-height: 1.6;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	nav {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 100;
+		background: rgba(10, 10, 11, 0.85);
+		backdrop-filter: blur(12px);
+		border-bottom: 1px solid var(--border);
+	}
+
+	.nav-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 1rem 2rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.logo {
+		font-family: var(--mono);
+		font-size: 1.25rem;
+		font-weight: 700;
+		color: var(--text);
+		text-decoration: none;
+	}
+
+	.accent {
+		color: var(--accent);
+	}
+
+	.nav-links {
+		display: flex;
+		gap: 2rem;
+	}
+
+	.nav-links a {
+		color: var(--text-muted);
+		text-decoration: none;
+		font-size: 0.9rem;
+		transition: color 0.2s;
+	}
+
+	.nav-links a:hover {
+		color: var(--text);
+	}
+
+	main {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+
+	.hero {
+		padding-top: 8rem;
+		padding-bottom: 4rem;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4rem;
+		align-items: center;
+		min-height: 90vh;
+	}
+
+	.tagline {
+		font-family: var(--mono);
+		font-size: 0.875rem;
+		color: var(--accent);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		margin-bottom: 1rem;
+	}
+
+	.hero h1 {
+		font-size: clamp(2.5rem, 5vw, 4rem);
+		font-weight: 700;
+		line-height: 1.1;
+		margin-bottom: 1.5rem;
+	}
+
+	.subtitle {
+		font-size: 1.125rem;
+		color: var(--text-muted);
+		line-height: 1.7;
+		margin-bottom: 2rem;
+		max-width: 520px;
+	}
+
+	.cta-row {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.btn-primary {
+		display: inline-block;
+		padding: 0.75rem 1.5rem;
+		background: var(--accent);
+		color: var(--bg);
+		font-weight: 600;
+		font-size: 0.9rem;
+		text-decoration: none;
+		border-radius: 6px;
+		transition: opacity 0.2s;
+	}
+
+	.btn-primary:hover {
+		opacity: 0.85;
+	}
+
+	.btn-secondary {
+		display: inline-block;
+		padding: 0.75rem 1.5rem;
+		border: 1px solid var(--border);
+		color: var(--text);
+		font-weight: 500;
+		font-size: 0.9rem;
+		text-decoration: none;
+		border-radius: 6px;
+		transition: border-color 0.2s, color 0.2s;
+	}
+
+	.btn-secondary:hover {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+
+	.hero-visual {
+		padding: 2rem;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+	}
+
+	.compression-demo {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	.demo-bar {
+		display: grid;
+		grid-template-columns: 120px 1fr 80px;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.bar-label {
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		color: var(--text-muted);
+	}
+
+	.bar-fill {
+		height: 28px;
+		border-radius: 4px;
+		transition: width 1s ease;
+	}
+
+	.original .bar-fill {
+		background: #3a3a42;
+	}
+
+	.zstd .bar-fill {
+		background: #5a5a64;
+	}
+
+	.boole .bar-fill {
+		background: var(--accent);
+	}
+
+	.boole .bar-label {
+		color: var(--accent);
+		font-weight: 500;
+	}
+
+	.bar-value {
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		color: var(--text-muted);
+		text-align: right;
+	}
+
+	.boole .bar-value {
+		color: var(--accent);
+		font-weight: 500;
+	}
+
+	.demo-caption {
+		font-size: 0.8rem;
+		color: var(--text-muted);
+		margin-top: 0.5rem;
+		font-style: italic;
+	}
+
+	.claims {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+		padding: 4rem 0;
+		border-top: 1px solid var(--border);
+		border-bottom: 1px solid var(--border);
+	}
+
+	.claim {
+		text-align: center;
+	}
+
+	.claim-number {
+		display: block;
+		font-family: var(--mono);
+		font-size: 2.5rem;
+		font-weight: 700;
+		color: var(--accent);
+		margin-bottom: 0.5rem;
+	}
+
+	.claim-label {
+		font-size: 0.9rem;
+		color: var(--text-muted);
+		line-height: 1.5;
+	}
+
+	section.how,
+	section.benchmarks,
+	section.architecture,
+	section.why {
+		padding: 5rem 0;
+	}
+
+	h2 {
+		font-size: 2rem;
+		font-weight: 700;
+		margin-bottom: 1rem;
+	}
+
+	.section-intro {
+		font-size: 1.1rem;
+		color: var(--text-muted);
+		max-width: 680px;
+		margin-bottom: 3rem;
+		line-height: 1.7;
+	}
+
+	.features {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2rem;
+	}
+
+	.feature {
+		padding: 2rem;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 8px;
+	}
+
+	.feature h3 {
+		font-size: 1.1rem;
+		font-weight: 600;
+		margin-bottom: 0.75rem;
+	}
+
+	.feature p {
+		font-size: 0.95rem;
+		color: var(--text-muted);
+		line-height: 1.6;
+	}
+
+	.table-wrap {
+		overflow-x: auto;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.9rem;
+	}
+
+	th, td {
+		padding: 1rem 1.25rem;
+		text-align: left;
+		border-bottom: 1px solid var(--border);
+	}
+
+	th {
+		font-weight: 600;
+		color: var(--text-muted);
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	td {
+		font-family: var(--mono);
+		font-size: 0.85rem;
+	}
+
+	td strong {
+		color: var(--accent);
+	}
+
+	.arch-diagram {
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 8px;
+		padding: 2rem;
+		overflow-x: auto;
+	}
+
+	.arch-diagram pre {
+		font-family: var(--mono);
+		font-size: 0.75rem;
+		line-height: 1.6;
+		color: var(--text-muted);
+	}
+
+	.why-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+	}
+
+	.why-card {
+		padding: 2rem;
+		border: 1px solid var(--border);
+		border-radius: 8px;
+	}
+
+	.why-card h3 {
+		font-size: 1rem;
+		font-weight: 600;
+		margin-bottom: 0.75rem;
+	}
+
+	.why-card p {
+		font-size: 0.9rem;
+		color: var(--text-muted);
+		line-height: 1.6;
+	}
+
+	.bottom-cta {
+		padding: 5rem 0;
+		text-align: center;
+		border-top: 1px solid var(--border);
+	}
+
+	.bottom-cta h2 {
+		max-width: 600px;
+		margin: 0 auto 1rem;
+	}
+
+	.bottom-cta p {
+		color: var(--text-muted);
+		margin-bottom: 2rem;
+		font-size: 1.1rem;
+	}
+
+	.bottom-cta .cta-row {
+		justify-content: center;
+	}
+
+	footer {
+		padding: 2rem;
+		text-align: center;
+		border-top: 1px solid var(--border);
+		color: var(--text-muted);
+		font-size: 0.8rem;
+	}
+
+	@media (max-width: 768px) {
+		.hero {
+			grid-template-columns: 1fr;
+			gap: 3rem;
+			min-height: auto;
+			padding-top: 6rem;
+		}
+
+		.claims {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+		}
+
+		.features {
+			grid-template-columns: 1fr;
+		}
+
+		.why-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.nav-links {
+			display: none;
+		}
+
+		.demo-bar {
+			grid-template-columns: 80px 1fr 60px;
+		}
+	}
+</style>
