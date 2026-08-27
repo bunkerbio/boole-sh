@@ -8,667 +8,920 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>boole.sh — Lossless compression for AI</title>
-		<meta name="description" content="Zero-loss compression engineered for model weights, tensors, and AI infrastructure. Smaller models. Faster inference. No accuracy lost." />
+		<title>Boole — Inference gets cheaper the longer you leave it running</title>
+		<meta name="description" content="Serverless inference priced by what it actually costs to run, rewritten nightly by an optimization agent until it costs less." />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 	</head>
 	<body>
-		<nav>
-			<div class="nav-inner">
-				<a href="/" class="logo">boole<span class="accent">.sh</span></a>
-				<div class="nav-links">
-					<a href="#how">How it works</a>
-					<a href="#benchmarks">Benchmarks</a>
-					<a href="https://github.com/boole-sh" target="_blank" rel="noopener">GitHub</a>
+		<div class="page-wrap">
+			<div class="page">
+
+				<nav>
+					<span class="logo">Boole</span>
+					<div class="nav-links">
+						<span>MODELS</span>
+						<span>PRICING</span>
+						<span>DOCS</span>
+						<span>LOG</span>
+					</div>
+					<span class="nav-cta">GET AN API KEY</span>
+				</nav>
+
+				<section class="hero">
+					<div class="hero-copy">
+						<h1>Inference gets cheaper the longer you leave it running.</h1>
+						<p>Every other provider prices a static stack. Ours is rewritten by an agent that forms one hypothesis at a time, measures it against a frozen quality gate, and reverts anything that does not win. Fourteen days in, the same model costs a tenth of what it did on day one.</p>
+						<p>The gate is public. So is every kept commit.</p>
+						<div class="hero-actions">
+							<span class="btn-primary">START FREE</span>
+							<span class="btn-link">Read the methodology &rarr;</span>
+						</div>
+					</div>
+					<div class="hero-metrics">
+						<div class="metric-header">LLAMA-3.3-70B &middot; $ PER MILLION INPUT TOKENS</div>
+						<div class="provider-row">
+							<span class="provider-name">Provider A</span>
+							<div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+							<span class="provider-price">0.94</span>
+						</div>
+						<div class="provider-row">
+							<span class="provider-name">Provider B</span>
+							<div class="bar-track"><div class="bar-fill" style="width:91%"></div></div>
+							<span class="provider-price">0.86</span>
+						</div>
+						<div class="provider-row">
+							<span class="provider-name">Provider C</span>
+							<div class="bar-track"><div class="bar-fill" style="width:62%"></div></div>
+							<span class="provider-price">0.58</span>
+						</div>
+						<div class="provider-row provider-row--boole">
+							<span class="provider-name">Boole</span>
+							<div class="bar-track"><div class="bar-fill bar-fill--accent" style="width:10%"></div></div>
+							<span class="provider-price provider-price--accent">0.09</span>
+						</div>
+						<div class="stat-grid">
+							<div class="stat-cell stat-cell--border-right">
+								<div class="stat-label">COLD START p99</div>
+								<div class="stat-value">380ms</div>
+							</div>
+							<div class="stat-cell">
+								<div class="stat-label">TTFT p50</div>
+								<div class="stat-value">62ms</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<div class="methodology-bar">
+					<span>METHODOLOGY: FROZEN OBJECTIVE, ONE MEASUREMENT PER ITERATION</span>
+					<span>2,057 ITERATIONS &middot; 217 KEPT</span>
+					<span>SOC 2 TYPE II</span>
 				</div>
+
+				<section class="section-mechanism">
+					<div class="mechanism-copy">
+						<div class="section-number">01 &mdash; THE MECHANISM</div>
+						<h2>One hypothesis at a time, against a gate that never moves.</h2>
+						<p>The agent proposes a change to the kernel, the scheduler, or the quantisation scheme. It runs the eval suite once. If quality drops below the frozen threshold, the change is reverted and the hypothesis is recorded as dead.</p>
+						<p>Nothing ships on a hunch. Roughly one in ten attempts survives.</p>
+					</div>
+					<div class="log-table">
+						<div class="log-header">
+							<span>BOOLE LOG &middot; LLAMA-3.3-70B</span>
+							<span>LAST 6 ITERATIONS</span>
+						</div>
+						<div class="log-row"><span class="log-id">#2052</span><span class="log-desc">fuse rmsnorm + qkv projection</span><span class="log-qual">-0.3% qual</span><span class="log-status">REVERTED</span></div>
+						<div class="log-row"><span class="log-id">#2053</span><span class="log-desc">page kv-cache at 64-token granularity</span><span class="log-qual">+0.0% qual</span><span class="log-status log-status--kept">KEPT</span></div>
+						<div class="log-row"><span class="log-id">#2054</span><span class="log-desc">int4 weights on layers 0&ndash;12</span><span class="log-qual">-1.9% qual</span><span class="log-status">REVERTED</span></div>
+						<div class="log-row"><span class="log-id">#2055</span><span class="log-desc">speculative draft depth 5 &rarr; 7</span><span class="log-qual">-0.1% qual</span><span class="log-status">REVERTED</span></div>
+						<div class="log-row"><span class="log-id">#2056</span><span class="log-desc">batch admission by token budget</span><span class="log-qual">+0.0% qual</span><span class="log-status log-status--kept">KEPT</span></div>
+						<div class="log-row log-row--last"><span class="log-id">#2057</span><span class="log-desc">ternary kernel for mlp down-proj</span><span class="log-qual">-4.2% qual</span><span class="log-status">REVERTED</span></div>
+						<div class="log-footer">
+							<span>COST PER MTOK AFTER THIS BATCH</span>
+							<span class="log-cost">$0.09</span>
+						</div>
+					</div>
+				</section>
+
+				<section class="section-pricing">
+					<div class="pricing-header">
+						<div>
+							<div class="section-number">02 &mdash; THE BILL</div>
+							<h2>The same open weights. A tenth of the invoice.</h2>
+						</div>
+						<p class="pricing-note">Prices below are live and move down, never up. The rightmost column is what the identical workload cost on the cheapest alternative this week.</p>
+					</div>
+					<div class="pricing-table-header">
+						<span>MODEL</span>
+						<span class="text-right">IN / MTOK</span>
+						<span class="text-right">OUT / MTOK</span>
+						<span class="text-right">TTFT p50</span>
+						<span class="text-right">CHEAPEST ELSEWHERE</span>
+					</div>
+					<div class="pricing-row"><span class="model-name">Llama 3.3 70B Instruct</span><span class="price-accent text-right">$0.09</span><span class="price-normal text-right">$0.14</span><span class="price-muted text-right">62ms</span><span class="price-dim text-right">$0.58 in</span></div>
+					<div class="pricing-row"><span class="model-name">Qwen 2.5 72B Instruct</span><span class="price-accent text-right">$0.11</span><span class="price-normal text-right">$0.16</span><span class="price-muted text-right">71ms</span><span class="price-dim text-right">$0.62 in</span></div>
+					<div class="pricing-row"><span class="model-name">Mixtral 8x22B</span><span class="price-accent text-right">$0.13</span><span class="price-normal text-right">$0.19</span><span class="price-muted text-right">58ms</span><span class="price-dim text-right">$0.65 in</span></div>
+					<div class="pricing-row"><span class="model-name">DeepSeek V3</span><span class="price-accent text-right">$0.08</span><span class="price-normal text-right">$0.12</span><span class="price-muted text-right">77ms</span><span class="price-dim text-right">$0.41 in</span></div>
+					<div class="pricing-row pricing-row--last"><span class="model-name">Whisper Large v3</span><span class="price-accent text-right">$0.02</span><span class="price-dim text-right">&mdash;</span><span class="price-muted text-right">44ms</span><span class="price-dim text-right">$0.11 /hr</span></div>
+					<div class="pricing-footer">42 MODELS AVAILABLE &middot; NO MINIMUM &middot; NO RESERVED CAPACITY &middot; BILLED PER TOKEN</div>
+				</section>
+
+				<section class="section-coldstart">
+					<div class="coldstart-copy">
+						<div class="section-number">03 &mdash; COLD START</div>
+						<h2>Scale to zero without the first request paying for it.</h2>
+						<p>Weights stay resident in a shared page cache and the runtime snapshots after warm-up, so a cold container resumes rather than boots. Every stage below is measured on every cold request and published.</p>
+						<div class="timing-breakdown">
+							<div class="timing-row"><span class="timing-label">scheduler admit</span><div class="timing-track"><div class="timing-fill" style="width:7%"></div></div><span class="timing-value">24ms</span></div>
+							<div class="timing-row"><span class="timing-label">snapshot restore</span><div class="timing-track"><div class="timing-fill" style="width:38%"></div></div><span class="timing-value">137ms</span></div>
+							<div class="timing-row"><span class="timing-label">weight page-in</span><div class="timing-track"><div class="timing-fill" style="width:29%"></div></div><span class="timing-value">104ms</span></div>
+							<div class="timing-row timing-row--last"><span class="timing-label">first token</span><div class="timing-track"><div class="timing-fill timing-fill--accent" style="width:26%"></div></div><span class="timing-value timing-value--accent">92ms</span></div>
+						</div>
+					</div>
+					<div class="coldstart-chart">
+						<div class="chart-header">COLD START p99 &middot; TRAILING 14 DAYS</div>
+						<div class="chart-bars">
+							<div class="chart-bar" style="height:96%"></div>
+							<div class="chart-bar" style="height:92%"></div>
+							<div class="chart-bar" style="height:88%"></div>
+							<div class="chart-bar" style="height:81%"></div>
+							<div class="chart-bar" style="height:83%"></div>
+							<div class="chart-bar" style="height:74%"></div>
+							<div class="chart-bar" style="height:69%"></div>
+							<div class="chart-bar" style="height:66%"></div>
+							<div class="chart-bar" style="height:58%"></div>
+							<div class="chart-bar" style="height:54%"></div>
+							<div class="chart-bar" style="height:49%"></div>
+							<div class="chart-bar" style="height:44%"></div>
+							<div class="chart-bar" style="height:41%"></div>
+							<div class="chart-bar chart-bar--accent" style="height:36%"></div>
+						</div>
+						<div class="chart-labels">
+							<span>1.04s &middot; JUL 27</span>
+							<span>380ms &middot; TODAY</span>
+						</div>
+						<div class="no-pay-box">
+							<div class="no-pay-header">WHAT YOU DO NOT PAY FOR</div>
+							<div class="no-pay-items">
+								<span>Idle replicas held open for headroom.</span>
+								<span>Reserved GPU-hours bought in advance.</span>
+								<span>The container's boot time.</span>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="section-migration">
+					<div class="migration-copy">
+						<div class="section-number">04 &mdash; MOVING OVER</div>
+						<h2>Change the base URL. That is the migration.</h2>
+						<p>The API is OpenAI-compatible, including streaming, tool calls, structured outputs, and the batch endpoint. Existing SDKs work unmodified.</p>
+						<span class="btn-link">Full API reference &rarr;</span>
+					</div>
+					<div class="code-block">
+						<div class="code-tabs">
+							<span class="code-tab code-tab--active">PYTHON</span>
+							<span class="code-tab">NODE</span>
+							<span class="code-tab">CURL</span>
+						</div>
+						<pre class="code-content">from openai import OpenAI
+
+client = OpenAI(
+    <span class="hl-key">base_url</span>=<span class="hl-str">"https://api.boole.dev/v1"</span>,
+    api_key=os.environ[<span class="hl-str">"BOOLE_API_KEY"</span>],
+)
+
+resp = client.chat.completions.create(
+    model=<span class="hl-str">"llama-3.3-70b-instruct"</span>,
+    messages=[
+        {<span class="hl-str">"role"</span>: <span class="hl-str">"user"</span>, <span class="hl-str">"content"</span>: <span class="hl-str">"Summarise this ticket."</span>},
+    ],
+    stream=<span class="hl-str">True</span>,
+)</pre>
+						<div class="code-footer">
+							<span>FIRST TOKEN IN 62ms</span>
+							<span>THIS REQUEST: $0.000042</span>
+						</div>
+					</div>
+				</section>
+
+				<section class="section-cta">
+					<div class="cta-copy">
+						<h2>Run the first million tokens on us.</h2>
+						<p>No card, no sales call. If the numbers on this page do not hold for your workload, the log will tell you why.</p>
+					</div>
+					<div class="cta-actions">
+						<span class="btn-primary">GET AN API KEY</span>
+						<span class="btn-link">Talk to an engineer &rarr;</span>
+					</div>
+				</section>
+
+				<footer>
+					<div class="footer-brand">
+						<div class="footer-logo">Boole</div>
+						<div class="footer-tagline">Inference priced by what it actually costs to run, and rewritten nightly until it costs less.</div>
+					</div>
+					<div class="footer-col">
+						<span class="footer-heading">PRODUCT</span>
+						<span>Models</span>
+						<span>Pricing</span>
+						<span>Playground</span>
+						<span>Status</span>
+					</div>
+					<div class="footer-col">
+						<span class="footer-heading">DEVELOPERS</span>
+						<span>Docs</span>
+						<span>API reference</span>
+						<span>Boole log</span>
+						<span>Changelog</span>
+					</div>
+					<div class="footer-col">
+						<span class="footer-heading">COMPANY</span>
+						<span>Methodology</span>
+						<span>Security</span>
+						<span>Careers</span>
+						<span>Contact</span>
+					</div>
+				</footer>
+
 			</div>
-		</nav>
-
-		<main>
-			<section class="hero">
-				<div class="hero-content">
-					<p class="tagline">Lossless compression for AI</p>
-					<h1>Shrink models.<br />Keep every bit.</h1>
-					<p class="subtitle">
-						boole.sh is a zero-loss compression engine purpose-built for model weights,
-						activations, and tensor data. We exploit the statistical structure of neural
-						network parameters to achieve compression ratios that general-purpose codecs cannot.
-					</p>
-					<div class="cta-row">
-						<a href="https://github.com/boole-sh" class="btn-primary">View source</a>
-						<a href="mailto:hello@boole.sh" class="btn-secondary">Get in touch</a>
-					</div>
-				</div>
-				<div class="hero-visual">
-					<div class="compression-demo">
-						<div class="demo-bar original">
-							<span class="bar-label">Original (FP16)</span>
-							<div class="bar-fill" style="width: 100%"></div>
-							<span class="bar-value">14.0 GB</span>
-						</div>
-						<div class="demo-bar zstd">
-							<span class="bar-label">zstd -19</span>
-							<div class="bar-fill" style="width: 72%"></div>
-							<span class="bar-value">10.1 GB</span>
-						</div>
-						<div class="demo-bar boole">
-							<span class="bar-label">boole.sh</span>
-							<div class="bar-fill" style="width: 41%"></div>
-							<span class="bar-value">5.7 GB</span>
-						</div>
-						<p class="demo-caption">Llama 3 8B — lossless, bit-exact reconstruction</p>
-					</div>
-				</div>
-			</section>
-
-			<section class="claims">
-				<div class="claim">
-					<span class="claim-number">2.4x</span>
-					<span class="claim-label">median compression ratio on transformer weights</span>
-				</div>
-				<div class="claim">
-					<span class="claim-number">0</span>
-					<span class="claim-label">bits of information lost — every weight reconstructs exactly</span>
-				</div>
-				<div class="claim">
-					<span class="claim-number">&gt;2 GB/s</span>
-					<span class="claim-label">decompression throughput — no bottleneck at inference time</span>
-				</div>
-			</section>
-
-			<section id="how" class="how">
-				<h2>Built for how neural networks actually look</h2>
-				<p class="section-intro">
-					General-purpose compressors treat model files as arbitrary byte streams.
-					We don't. boole.sh understands tensor layout, exploits cross-layer correlations,
-					and encodes the specific distributions that emerge from gradient descent.
-				</p>
-				<div class="features">
-					<div class="feature">
-						<h3>Tensor-aware entropy coding</h3>
-						<p>
-							Adaptive arithmetic coding tuned to the heavy-tailed distributions
-							of trained parameters. Per-channel statistics, not per-file.
-						</p>
-					</div>
-					<div class="feature">
-						<h3>Format-native ingestion</h3>
-						<p>
-							Reads SafeTensors, GGUF, PyTorch, and ONNX directly.
-							No preprocessing, no conversion step.
-						</p>
-					</div>
-					<div class="feature">
-						<h3>Streaming decompression</h3>
-						<p>
-							Layer-by-layer decode directly into GPU memory.
-							Load a compressed model as fast as an uncompressed one.
-						</p>
-					</div>
-					<div class="feature">
-						<h3>Rust + SIMD kernels</h3>
-						<p>
-							The core engine is ~8k lines of Rust with hand-tuned
-							AVX-512 and NEON paths. No runtime dependencies.
-						</p>
-					</div>
-				</div>
-			</section>
-
-			<section id="benchmarks" class="benchmarks">
-				<h2>Benchmarks</h2>
-				<p class="section-intro">
-					Compression ratio (higher is better) on popular open-weight models.
-					All results are lossless — decompressed output is byte-identical to the original.
-				</p>
-				<div class="table-wrap">
-					<table>
-						<thead>
-							<tr>
-								<th>Model</th>
-								<th>Format</th>
-								<th>Original</th>
-								<th>zstd -19</th>
-								<th>boole.sh</th>
-								<th>Ratio</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Llama 3 8B</td>
-								<td>FP16</td>
-								<td>14.0 GB</td>
-								<td>10.1 GB</td>
-								<td>5.7 GB</td>
-								<td><strong>2.46x</strong></td>
-							</tr>
-							<tr>
-								<td>Mistral 7B</td>
-								<td>FP16</td>
-								<td>13.5 GB</td>
-								<td>9.8 GB</td>
-								<td>5.5 GB</td>
-								<td><strong>2.45x</strong></td>
-							</tr>
-							<tr>
-								<td>Phi-3 Mini</td>
-								<td>FP16</td>
-								<td>7.6 GB</td>
-								<td>5.6 GB</td>
-								<td>3.3 GB</td>
-								<td><strong>2.30x</strong></td>
-							</tr>
-							<tr>
-								<td>SDXL (UNet)</td>
-								<td>FP16</td>
-								<td>5.1 GB</td>
-								<td>3.9 GB</td>
-								<td>2.3 GB</td>
-								<td><strong>2.22x</strong></td>
-							</tr>
-							<tr>
-								<td>Whisper Large v3</td>
-								<td>FP32</td>
-								<td>6.2 GB</td>
-								<td>4.4 GB</td>
-								<td>2.4 GB</td>
-								<td><strong>2.58x</strong></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</section>
-
-			<section class="architecture">
-				<h2>Architecture</h2>
-				<div class="arch-diagram">
-					<pre><code>┌─────────────┐     ┌──────────────┐     ┌───────────────┐     ┌──────────────┐
-│  Model File │────▶│ Format Parse │────▶│ Tensor Analyze│────▶│ Entropy Code │
-│ .safetensors│     │  (engine-    │     │  (engine-     │     │  (engine-    │
-│ .gguf .pt   │     │   formats)   │     │   quant)      │     │   core)      │
-└─────────────┘     └──────────────┘     └───────────────┘     └──────────────┘
-                                                                       │
-                    ┌──────────────┐     ┌───────────────┐             │
-                    │  .boole file │◀────│ SIMD Kernels  │◀────────────┘
-                    │  (compact)   │     │ (engine-      │
-                    │              │     │  kernels)     │
-                    └──────────────┘     └───────────────┘</code></pre>
-				</div>
-			</section>
-
-			<section class="why">
-				<h2>Why this matters</h2>
-				<div class="why-grid">
-					<div class="why-card">
-						<h3>Storage costs</h3>
-						<p>
-							Model registries at scale store thousands of checkpoints.
-							2.4x compression directly halves your S3 bill.
-						</p>
-					</div>
-					<div class="why-card">
-						<h3>Distribution</h3>
-						<p>
-							Smaller artifacts mean faster pulls. Deploy models to edge
-							nodes and mobile devices without multi-hour downloads.
-						</p>
-					</div>
-					<div class="why-card">
-						<h3>Cold start</h3>
-						<p>
-							Streaming decompression lets serverless inference start
-							serving requests while the model is still loading.
-						</p>
-					</div>
-				</div>
-			</section>
-
-			<section class="bottom-cta">
-				<h2>We're building the compression layer for AI infrastructure.</h2>
-				<p>If you're working on model serving, distribution, or storage at scale — let's talk.</p>
-				<div class="cta-row">
-					<a href="mailto:hello@boole.sh" class="btn-primary">Contact us</a>
-					<a href="https://github.com/boole-sh" class="btn-secondary">GitHub</a>
-				</div>
-			</section>
-		</main>
-
-		<footer>
-			<p>&copy; 2026 boole.sh</p>
-		</footer>
+		</div>
 	</body>
 </html>
 
 <style>
 	:root {
-		--bg: #0a0a0b;
-		--surface: #141416;
-		--border: #2a2a2e;
-		--text: #e8e8ec;
-		--text-muted: #8a8a94;
-		--accent: #6ee7b7;
-		--accent-dim: #2d6b54;
-		--mono: 'JetBrains Mono', monospace;
-		--sans: 'Inter', system-ui, sans-serif;
+		--bg: #fdfcfa;
+		--bg-outer: #f0eee9;
+		--surface: #f7f5f1;
+		--text: #171512;
+		--text-body: rgba(23, 21, 18, 0.72);
+		--text-muted: rgba(23, 21, 18, 0.6);
+		--text-dim: rgba(23, 21, 18, 0.45);
+		--text-faint: rgba(23, 21, 18, 0.35);
+		--accent: #b45309;
+		--border: #171512;
+		--border-light: rgba(23, 21, 18, 0.14);
+		--border-mid: rgba(23, 21, 18, 0.16);
+		--serif: 'Instrument Serif', serif;
+		--sans: 'Instrument Sans', system-ui, sans-serif;
+		--mono: 'IBM Plex Mono', monospace;
 	}
 
-	* {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-	}
-
-	html {
-		scroll-behavior: smooth;
-	}
+	* { margin: 0; padding: 0; box-sizing: border-box; }
 
 	body {
 		font-family: var(--sans);
-		background: var(--bg);
+		background: var(--bg-outer);
 		color: var(--text);
-		line-height: 1.6;
 		-webkit-font-smoothing: antialiased;
 	}
 
+	.page-wrap {
+		display: flex;
+		justify-content: center;
+	}
+
+	.page {
+		width: 1180px;
+		max-width: 100%;
+		background: var(--bg);
+		border-left: 1px solid var(--border);
+		border-right: 1px solid var(--border);
+	}
+
+	/* Nav */
 	nav {
-		position: fixed;
-		top: 0;
-		width: 100%;
-		z-index: 100;
-		background: rgba(10, 10, 11, 0.85);
-		backdrop-filter: blur(12px);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 20px 56px;
 		border-bottom: 1px solid var(--border);
 	}
 
-	.nav-inner {
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 1rem 2rem;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
 	.logo {
-		font-family: var(--mono);
-		font-size: 1.25rem;
-		font-weight: 700;
+		font: 400 22px var(--serif);
+		letter-spacing: 0.01em;
 		color: var(--text);
-		text-decoration: none;
-	}
-
-	.accent {
-		color: var(--accent);
 	}
 
 	.nav-links {
 		display: flex;
-		gap: 2rem;
-	}
-
-	.nav-links a {
+		gap: 24px;
+		font: 400 12px var(--mono);
+		letter-spacing: 0.06em;
 		color: var(--text-muted);
-		text-decoration: none;
-		font-size: 0.9rem;
-		transition: color 0.2s;
 	}
 
-	.nav-links a:hover {
+	.nav-cta {
+		font: 400 12px var(--mono);
+		letter-spacing: 0.06em;
 		color: var(--text);
+		border-bottom: 1px solid var(--text);
+		padding-bottom: 2px;
 	}
 
-	main {
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 0 2rem;
-	}
-
+	/* Hero */
 	.hero {
-		padding-top: 8rem;
-		padding-bottom: 4rem;
+		padding: 76px 56px 44px;
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 4rem;
-		align-items: center;
-		min-height: 90vh;
-	}
-
-	.tagline {
-		font-family: var(--mono);
-		font-size: 0.875rem;
-		color: var(--accent);
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		margin-bottom: 1rem;
+		grid-template-columns: 1.15fr 0.85fr;
+		gap: 64px;
 	}
 
 	.hero h1 {
-		font-size: clamp(2.5rem, 5vw, 4rem);
-		font-weight: 700;
-		line-height: 1.1;
-		margin-bottom: 1.5rem;
+		margin: 0 0 26px;
+		font: 400 70px/1.02 var(--serif);
+		letter-spacing: -0.015em;
+		color: var(--text);
 	}
 
-	.subtitle {
-		font-size: 1.125rem;
-		color: var(--text-muted);
-		line-height: 1.7;
-		margin-bottom: 2rem;
-		max-width: 520px;
+	.hero-copy p {
+		margin: 0 0 20px;
+		max-width: 48ch;
+		font: 400 16.5px/1.68 var(--sans);
+		color: var(--text-body);
 	}
 
-	.cta-row {
+	.hero-copy p:last-of-type {
+		margin-bottom: 34px;
+	}
+
+	.hero-actions {
 		display: flex;
-		gap: 1rem;
-		flex-wrap: wrap;
+		gap: 22px;
+		align-items: center;
 	}
 
 	.btn-primary {
-		display: inline-block;
-		padding: 0.75rem 1.5rem;
-		background: var(--accent);
+		font: 400 13px var(--mono);
+		letter-spacing: 0.04em;
 		color: var(--bg);
-		font-weight: 600;
-		font-size: 0.9rem;
-		text-decoration: none;
-		border-radius: 6px;
-		transition: opacity 0.2s;
+		background: var(--text);
+		padding: 13px 22px;
+		cursor: pointer;
 	}
 
-	.btn-primary:hover {
-		opacity: 0.85;
-	}
-
-	.btn-secondary {
-		display: inline-block;
-		padding: 0.75rem 1.5rem;
-		border: 1px solid var(--border);
+	.btn-link {
+		font: 400 13px var(--mono);
+		letter-spacing: 0.04em;
 		color: var(--text);
-		font-weight: 500;
-		font-size: 0.9rem;
-		text-decoration: none;
-		border-radius: 6px;
-		transition: border-color 0.2s, color 0.2s;
+		border-bottom: 1px solid rgba(23, 21, 18, 0.3);
+		padding-bottom: 3px;
+		cursor: pointer;
 	}
 
-	.btn-secondary:hover {
-		border-color: var(--accent);
-		color: var(--accent);
+	/* Metrics panel */
+	.metric-header {
+		font: 400 11px var(--mono);
+		letter-spacing: 0.12em;
+		color: var(--text-dim);
+		padding-bottom: 10px;
+		border-bottom: 1px solid var(--border);
 	}
 
-	.hero-visual {
-		padding: 2rem;
-		background: var(--surface);
-		border: 1px solid var(--border);
-		border-radius: 12px;
-	}
-
-	.compression-demo {
+	.provider-row {
 		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
+		align-items: baseline;
+		gap: 14px;
+		padding: 16px 0;
+		border-bottom: 1px solid var(--border-light);
 	}
 
-	.demo-bar {
-		display: grid;
-		grid-template-columns: 120px 1fr 80px;
-		align-items: center;
-		gap: 1rem;
+	.provider-row--boole {
+		border-bottom: 1px solid var(--border);
 	}
 
-	.bar-label {
-		font-family: var(--mono);
-		font-size: 0.8rem;
+	.provider-name {
+		width: 110px;
+		font: 400 13px var(--sans);
 		color: var(--text-muted);
+	}
+
+	.provider-row--boole .provider-name {
+		font-weight: 500;
+		color: var(--text);
+	}
+
+	.bar-track {
+		flex: 1;
+		height: 9px;
+		background: rgba(23, 21, 18, 0.1);
 	}
 
 	.bar-fill {
-		height: 28px;
-		border-radius: 4px;
-		transition: width 1s ease;
+		height: 100%;
+		background: rgba(23, 21, 18, 0.28);
 	}
 
-	.original .bar-fill {
-		background: #3a3a42;
-	}
-
-	.zstd .bar-fill {
-		background: #5a5a64;
-	}
-
-	.boole .bar-fill {
+	.bar-fill--accent {
 		background: var(--accent);
 	}
 
-	.boole .bar-label {
-		color: var(--accent);
-		font-weight: 500;
+	.provider-price {
+		width: 52px;
+		text-align: right;
+		font: 400 13px var(--mono);
+		color: var(--text-muted);
 	}
 
-	.bar-value {
-		font-family: var(--mono);
-		font-size: 0.8rem;
-		color: var(--text-muted);
+	.provider-price--accent {
+		font-weight: 500;
+		color: var(--accent);
+	}
+
+	.stat-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		margin-top: 30px;
+		border: 1px solid var(--border-mid);
+	}
+
+	.stat-cell {
+		padding: 18px;
+	}
+
+	.stat-cell--border-right {
+		border-right: 1px solid var(--border-mid);
+	}
+
+	.stat-label {
+		font: 400 10.5px var(--mono);
+		letter-spacing: 0.1em;
+		color: var(--text-dim);
+		margin-bottom: 9px;
+	}
+
+	.stat-value {
+		font: 400 40px/1 var(--serif);
+		color: var(--text);
+	}
+
+	/* Methodology bar */
+	.methodology-bar {
+		border-top: 1px solid var(--border);
+		border-bottom: 1px solid var(--border);
+		padding: 20px 56px;
+		display: flex;
+		justify-content: space-between;
+		font: 400 11.5px var(--mono);
+		letter-spacing: 0.05em;
+		color: rgba(23, 21, 18, 0.5);
+	}
+
+	/* Section shared */
+	.section-number {
+		font: 400 11px var(--mono);
+		letter-spacing: 0.12em;
+		color: var(--text-dim);
+		margin-bottom: 18px;
+	}
+
+	section h2 {
+		margin: 0 0 22px;
+		font: 400 42px/1.08 var(--serif);
+		letter-spacing: -0.01em;
+		color: var(--text);
+	}
+
+	section p {
+		margin: 0 0 18px;
+		max-width: 44ch;
+		font: 400 15.5px/1.66 var(--sans);
+		color: var(--text-body);
+	}
+
+	/* Section 01 - Mechanism */
+	.section-mechanism {
+		padding: 72px 56px;
+		display: grid;
+		grid-template-columns: 0.85fr 1.15fr;
+		gap: 64px;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.log-table {
+		border: 1px solid var(--border-mid);
+	}
+
+	.log-header {
+		padding: 14px 18px;
+		border-bottom: 1px solid var(--border-mid);
+		display: flex;
+		justify-content: space-between;
+		font: 400 10.5px var(--mono);
+		letter-spacing: 0.1em;
+		color: rgba(23, 21, 18, 0.5);
+	}
+
+	.log-row {
+		display: flex;
+		gap: 16px;
+		padding: 13px 18px;
+		border-bottom: 1px solid rgba(23, 21, 18, 0.1);
+		font: 400 12.5px var(--mono);
+		color: var(--text-body);
+	}
+
+	.log-row--last {
+		border-bottom: none;
+	}
+
+	.log-id {
+		width: 52px;
+		color: rgba(23, 21, 18, 0.4);
+	}
+
+	.log-desc {
+		flex: 1;
+	}
+
+	.log-qual {
+		width: 82px;
+		text-align: right;
+		color: rgba(23, 21, 18, 0.4);
+	}
+
+	.log-status {
+		width: 64px;
 		text-align: right;
 	}
 
-	.boole .bar-value {
+	.log-status--kept {
 		color: var(--accent);
-		font-weight: 500;
 	}
 
-	.demo-caption {
-		font-size: 0.8rem;
-		color: var(--text-muted);
-		margin-top: 0.5rem;
-		font-style: italic;
+	.log-footer {
+		padding: 16px 18px;
+		border-top: 1px solid var(--border-mid);
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
 	}
 
-	.claims {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 2rem;
-		padding: 4rem 0;
-		border-top: 1px solid var(--border);
+	.log-footer span:first-child {
+		font: 400 11px var(--mono);
+		letter-spacing: 0.08em;
+		color: rgba(23, 21, 18, 0.5);
+	}
+
+	.log-cost {
+		font: 400 26px var(--serif);
+		color: var(--accent);
+	}
+
+	/* Section 02 - Pricing */
+	.section-pricing {
+		padding: 72px 56px;
 		border-bottom: 1px solid var(--border);
 	}
 
-	.claim {
-		text-align: center;
+	.pricing-header {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		margin-bottom: 34px;
 	}
 
-	.claim-number {
-		display: block;
-		font-family: var(--mono);
-		font-size: 2.5rem;
-		font-weight: 700;
-		color: var(--accent);
-		margin-bottom: 0.5rem;
+	.pricing-header h2 {
+		max-width: 20ch;
 	}
 
-	.claim-label {
-		font-size: 0.9rem;
-		color: var(--text-muted);
-		line-height: 1.5;
+	.pricing-note {
+		max-width: 38ch;
+		font: 400 15px/1.62 var(--sans);
+		color: rgba(23, 21, 18, 0.68);
 	}
 
-	section.how,
-	section.benchmarks,
-	section.architecture,
-	section.why {
-		padding: 5rem 0;
-	}
-
-	h2 {
-		font-size: 2rem;
-		font-weight: 700;
-		margin-bottom: 1rem;
-	}
-
-	.section-intro {
-		font-size: 1.1rem;
-		color: var(--text-muted);
-		max-width: 680px;
-		margin-bottom: 3rem;
-		line-height: 1.7;
-	}
-
-	.features {
+	.pricing-table-header {
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 2rem;
+		grid-template-columns: 1.6fr 0.8fr 0.8fr 0.8fr 1fr;
+		padding-bottom: 12px;
+		border-bottom: 1px solid var(--border);
+		font: 400 10.5px var(--mono);
+		letter-spacing: 0.1em;
+		color: var(--text-dim);
 	}
 
-	.feature {
-		padding: 2rem;
-		background: var(--surface);
-		border: 1px solid var(--border);
-		border-radius: 8px;
+	.pricing-row {
+		display: grid;
+		grid-template-columns: 1.6fr 0.8fr 0.8fr 0.8fr 1fr;
+		padding: 20px 0;
+		border-bottom: 1px solid var(--border-light);
+		align-items: baseline;
 	}
 
-	.feature h3 {
-		font-size: 1.1rem;
-		font-weight: 600;
-		margin-bottom: 0.75rem;
-	}
-
-	.feature p {
-		font-size: 0.95rem;
-		color: var(--text-muted);
-		line-height: 1.6;
-	}
-
-	.table-wrap {
-		overflow-x: auto;
-	}
-
-	table {
-		width: 100%;
-		border-collapse: collapse;
-		font-size: 0.9rem;
-	}
-
-	th, td {
-		padding: 1rem 1.25rem;
-		text-align: left;
+	.pricing-row--last {
 		border-bottom: 1px solid var(--border);
 	}
 
-	th {
-		font-weight: 600;
+	.model-name {
+		font: 400 16px var(--sans);
+		color: var(--text);
+	}
+
+	.price-accent {
+		font: 500 15px var(--mono);
+		color: var(--accent);
+	}
+
+	.price-normal {
+		font: 400 15px var(--mono);
+		color: var(--text);
+	}
+
+	.price-muted {
+		font: 400 15px var(--mono);
 		color: var(--text-muted);
-		font-size: 0.8rem;
-		text-transform: uppercase;
+	}
+
+	.price-dim {
+		font: 400 13.5px var(--mono);
+		color: var(--text-dim);
+	}
+
+	.text-right {
+		text-align: right;
+	}
+
+	.pricing-footer {
+		margin-top: 16px;
+		font: 400 11.5px var(--mono);
 		letter-spacing: 0.05em;
+		color: var(--text-dim);
 	}
 
-	td {
-		font-family: var(--mono);
-		font-size: 0.85rem;
+	/* Section 03 - Cold start */
+	.section-coldstart {
+		padding: 72px 56px;
+		display: grid;
+		grid-template-columns: 1.15fr 0.85fr;
+		gap: 64px;
+		border-bottom: 1px solid var(--border);
 	}
 
-	td strong {
+	.section-coldstart h2 {
+		max-width: 22ch;
+	}
+
+	.section-coldstart p {
+		margin-bottom: 26px;
+		max-width: 46ch;
+	}
+
+	.timing-breakdown {
+		border-top: 1px solid var(--border);
+	}
+
+	.timing-row {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		padding: 14px 0;
+		border-bottom: 1px solid var(--border-light);
+	}
+
+	.timing-row--last {
+		border-bottom: 1px solid var(--border);
+	}
+
+	.timing-label {
+		width: 150px;
+		font: 400 12.5px var(--mono);
+		color: rgba(23, 21, 18, 0.65);
+	}
+
+	.timing-track {
+		flex: 1;
+		height: 7px;
+		background: rgba(23, 21, 18, 0.08);
+	}
+
+	.timing-fill {
+		height: 100%;
+		background: rgba(23, 21, 18, 0.4);
+	}
+
+	.timing-fill--accent {
+		background: var(--accent);
+	}
+
+	.timing-value {
+		width: 64px;
+		text-align: right;
+		font: 400 12.5px var(--mono);
+		color: var(--text);
+	}
+
+	.timing-value--accent {
+		font-weight: 500;
 		color: var(--accent);
 	}
 
-	.arch-diagram {
-		background: var(--surface);
-		border: 1px solid var(--border);
-		border-radius: 8px;
-		padding: 2rem;
+	.chart-header {
+		font: 400 11px var(--mono);
+		letter-spacing: 0.12em;
+		color: var(--text-dim);
+		padding-bottom: 10px;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.chart-bars {
+		display: flex;
+		align-items: flex-end;
+		gap: 5px;
+		height: 180px;
+		padding: 22px 0;
+		border-bottom: 1px solid var(--border-light);
+	}
+
+	.chart-bar {
+		flex: 1;
+		background: rgba(23, 21, 18, 0.16);
+	}
+
+	.chart-bar--accent {
+		background: var(--accent);
+	}
+
+	.chart-labels {
+		display: flex;
+		justify-content: space-between;
+		padding-top: 10px;
+		font: 400 11px var(--mono);
+		letter-spacing: 0.06em;
+		color: var(--text-dim);
+	}
+
+	.no-pay-box {
+		margin-top: 30px;
+		border: 1px solid var(--border-mid);
+		padding: 20px;
+	}
+
+	.no-pay-header {
+		font: 400 10.5px var(--mono);
+		letter-spacing: 0.1em;
+		color: var(--text-dim);
+		margin-bottom: 12px;
+	}
+
+	.no-pay-items {
+		display: flex;
+		flex-direction: column;
+		gap: 9px;
+		font: 400 13.5px/1.5 var(--sans);
+		color: var(--text-body);
+	}
+
+	/* Section 04 - Migration */
+	.section-migration {
+		padding: 72px 56px;
+		display: grid;
+		grid-template-columns: 0.85fr 1.15fr;
+		gap: 64px;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.migration-copy h2 {
+		max-width: 18ch;
+	}
+
+	.migration-copy p {
+		margin-bottom: 26px;
+	}
+
+	.code-block {
+		border: 1px solid var(--border-mid);
+		min-width: 0;
+	}
+
+	.code-tabs {
+		padding: 13px 18px;
+		border-bottom: 1px solid var(--border-mid);
+		display: flex;
+		gap: 22px;
+		font: 400 11px var(--mono);
+		letter-spacing: 0.08em;
+		color: var(--text-dim);
+	}
+
+	.code-tab--active {
+		color: var(--text);
+		border-bottom: 1px solid var(--text);
+		padding-bottom: 2px;
+	}
+
+	.code-content {
+		padding: 24px 22px;
+		font: 400 13.5px/1.85 var(--mono);
+		color: rgba(23, 21, 18, 0.78);
+		white-space: pre;
 		overflow-x: auto;
 	}
 
-	.arch-diagram pre {
-		font-family: var(--mono);
-		font-size: 0.75rem;
-		line-height: 1.6;
-		color: var(--text-muted);
+	.hl-key { color: var(--accent); }
+	.hl-str { color: var(--text); }
+
+	.code-footer {
+		padding: 14px 18px;
+		border-top: 1px solid var(--border-mid);
+		display: flex;
+		justify-content: space-between;
+		font: 400 11.5px var(--mono);
+		letter-spacing: 0.05em;
+		color: rgba(23, 21, 18, 0.5);
 	}
 
-	.why-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 2rem;
+	/* Bottom CTA */
+	.section-cta {
+		padding: 76px 56px;
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 56px;
+		border-bottom: 1px solid var(--border);
 	}
 
-	.why-card {
-		padding: 2rem;
-		border: 1px solid var(--border);
-		border-radius: 8px;
+	.section-cta h2 {
+		max-width: 20ch;
+		font: 400 46px/1.06 var(--serif);
+		letter-spacing: -0.012em;
+		margin-bottom: 20px;
 	}
 
-	.why-card h3 {
-		font-size: 1rem;
-		font-weight: 600;
-		margin-bottom: 0.75rem;
+	.section-cta p {
+		max-width: 46ch;
+		margin-bottom: 0;
 	}
 
-	.why-card p {
-		font-size: 0.9rem;
-		color: var(--text-muted);
-		line-height: 1.6;
+	.cta-actions {
+		display: flex;
+		gap: 22px;
+		align-items: center;
+		flex: none;
 	}
 
-	.bottom-cta {
-		padding: 5rem 0;
-		text-align: center;
-		border-top: 1px solid var(--border);
+	.cta-actions .btn-primary {
+		padding: 14px 24px;
 	}
 
-	.bottom-cta h2 {
-		max-width: 600px;
-		margin: 0 auto 1rem;
-	}
-
-	.bottom-cta p {
-		color: var(--text-muted);
-		margin-bottom: 2rem;
-		font-size: 1.1rem;
-	}
-
-	.bottom-cta .cta-row {
-		justify-content: center;
-	}
-
+	/* Footer */
 	footer {
-		padding: 2rem;
-		text-align: center;
-		border-top: 1px solid var(--border);
-		color: var(--text-muted);
-		font-size: 0.8rem;
+		padding: 40px 56px 44px;
+		display: grid;
+		grid-template-columns: 1.4fr 1fr 1fr 1fr;
+		gap: 40px;
 	}
 
-	@media (max-width: 768px) {
-		.hero {
-			grid-template-columns: 1fr;
-			gap: 3rem;
-			min-height: auto;
-			padding-top: 6rem;
-		}
+	.footer-logo {
+		font: 400 22px var(--serif);
+		color: var(--text);
+		margin-bottom: 12px;
+	}
 
-		.claims {
-			grid-template-columns: 1fr;
-			gap: 2rem;
-		}
+	.footer-tagline {
+		font: 400 12.5px/1.6 var(--sans);
+		color: rgba(23, 21, 18, 0.5);
+		max-width: 30ch;
+	}
 
-		.features {
-			grid-template-columns: 1fr;
-		}
+	.footer-col {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		font: 400 12px var(--mono);
+		letter-spacing: 0.05em;
+		color: var(--text-muted);
+	}
 
-		.why-grid {
-			grid-template-columns: 1fr;
-		}
+	.footer-heading {
+		color: var(--text-faint);
+	}
 
-		.nav-links {
-			display: none;
-		}
-
-		.demo-bar {
-			grid-template-columns: 80px 1fr 60px;
-		}
+	/* Responsive */
+	@media (max-width: 900px) {
+		nav { padding: 16px 24px; }
+		.nav-links { display: none; }
+		.hero { grid-template-columns: 1fr; padding: 48px 24px 32px; gap: 40px; }
+		.hero h1 { font-size: 40px; }
+		.methodology-bar { padding: 16px 24px; flex-direction: column; gap: 8px; }
+		.section-mechanism,
+		.section-coldstart,
+		.section-migration { grid-template-columns: 1fr; padding: 48px 24px; gap: 32px; }
+		.section-pricing { padding: 48px 24px; }
+		.pricing-header { flex-direction: column; gap: 16px; }
+		.pricing-table-header,
+		.pricing-row { grid-template-columns: 1.4fr 0.8fr 0.8fr; }
+		.pricing-table-header span:nth-child(4),
+		.pricing-table-header span:nth-child(5),
+		.pricing-row span:nth-child(4),
+		.pricing-row span:nth-child(5) { display: none; }
+		.section-cta { flex-direction: column; padding: 48px 24px; align-items: flex-start; }
+		footer { grid-template-columns: 1fr 1fr; padding: 32px 24px; }
+		.log-row { font-size: 11px; }
+		.log-qual, .log-id { display: none; }
 	}
 </style>
