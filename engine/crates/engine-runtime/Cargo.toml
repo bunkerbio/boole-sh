@@ -10,3 +10,6 @@ engine-formats.workspace = true
 engine-kernels.workspace = true
 engine-quant.workspace = true
 anyhow.workspace = true
+candle-core.workspace = true
+candle-nn.workspace = true
+half.workspace = true
