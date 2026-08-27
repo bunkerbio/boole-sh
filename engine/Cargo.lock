@@ -319,6 +319,7 @@ name = "engine-cli"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "candle-core",
  "engine-core",
  "engine-formats",
  "engine-runtime",
@@ -369,10 +370,13 @@ name = "engine-runtime"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "candle-core",
+ "candle-nn",
  "engine-core",
  "engine-formats",
  "engine-kernels",
  "engine-quant",
+ "half",
 ]
 
 [[package]]

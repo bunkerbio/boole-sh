@@ -2,6 +2,8 @@ use anyhow::Result;
 use candle_core::Tensor;
 use engine_kernels::{rms_norm, grouped_query_attention, apply_rope, matmul, silu};
 
+use crate::kv_cache::KvCache;
+
 pub struct TransformerBlock {
     pub layer_idx: usize,
     attn_norm: Tensor,
@@ -56,31 +58,39 @@ impl TransformerBlock {
         x: &Tensor,
         positions: &[usize],
         mask: Option<&Tensor>,
+        cache: Option<&mut KvCache>,
     ) -> Result<Tensor> {
         let (batch, seq_len, _hidden) = x.dims3()?;
 
         // Pre-attention norm
         let normed = rms_norm(x, &self.attn_norm, self.rms_eps)?;
 
-        // QKV projections: (batch, seq, hidden) @ (hidden, proj_dim)^T
+        // QKV projections
         let q = matmul(&normed, &self.wq.t()?)?;
         let k = matmul(&normed, &self.wk.t()?)?;
         let v = matmul(&normed, &self.wv.t()?)?;
 
-        // Reshape to (batch, seq, num_heads, head_dim)
+        // Reshape to (batch, seq, heads, head_dim)
         let q = q.reshape(&[batch, seq_len, self.num_heads, self.head_dim])?;
-        let k = k.reshape(&[batch, seq_len, self.num_kv_heads, self.head_dim])?;
-        let v = v.reshape(&[batch, seq_len, self.num_kv_heads, self.head_dim])?;
+        let mut k = k.reshape(&[batch, seq_len, self.num_kv_heads, self.head_dim])?;
+        let mut v = v.reshape(&[batch, seq_len, self.num_kv_heads, self.head_dim])?;
 
-        // Apply RoPE
+        // Apply RoPE to q and k
         let q = apply_rope(&q, positions, self.rope_theta)?;
-        let k = apply_rope(&k, positions, self.rope_theta)?;
+        k = apply_rope(&k, positions, self.rope_theta)?;
+
+        // KV cache: append new k,v and retrieve full sequence
+        if let Some(kv_cache) = cache {
+            let (full_k, full_v) = kv_cache.append_and_get(self.layer_idx, &k, &v)?;
+            k = full_k;
+            v = full_v;
+        }
 
         // Grouped-query attention
         let num_kv_groups = self.num_heads / self.num_kv_heads;
         let attn_out = grouped_query_attention(&q, &k, &v, num_kv_groups, mask)?;
 
-        // Output projection: (batch, seq, num_heads * head_dim) -> (batch, seq, hidden)
+        // Output projection
         let attn_out = attn_out.reshape(&[batch, seq_len, self.num_heads * self.head_dim])?;
         let attn_out = matmul(&attn_out, &self.wo.t()?)?;
 
@@ -90,7 +100,7 @@ impl TransformerBlock {
         // Pre-FFN norm
         let normed = rms_norm(&x, &self.ffn_norm, self.rms_eps)?;
 
-        // SwiGLU MLP: gate * up then down
+        // SwiGLU MLP
         let gate = matmul(&normed, &self.w_gate.t()?)?;
         let up = matmul(&normed, &self.w_up.t()?)?;
         let gate = silu(&gate)?;

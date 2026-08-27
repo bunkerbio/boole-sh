@@ -13,3 +13,4 @@ engine-core.workspace = true
 engine-formats.workspace = true
 engine-runtime.workspace = true
 anyhow.workspace = true
+candle-core.workspace = true
