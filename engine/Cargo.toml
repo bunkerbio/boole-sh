@@ -24,6 +24,7 @@ engine-runtime = { path = "crates/engine-runtime" }
 anyhow = "1"
 half = { version = "2", features = ["num-traits"] }
 memmap2 = "0.9"
+rand = "0.9"
 safetensors = "0.4"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"

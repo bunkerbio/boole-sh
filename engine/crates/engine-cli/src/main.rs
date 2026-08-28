@@ -37,7 +37,7 @@ fn main() -> Result<()> {
     let weights = Weights::new(raw_tensors, device);
 
     eprintln!("building model...");
-    let mut model = Model::load(config, weights)?;
+    let model = Model::load(config, weights)?;
 
     let sampler = if temperature == 0.0 {
         Sampler::Greedy

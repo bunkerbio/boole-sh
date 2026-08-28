@@ -377,6 +377,7 @@ dependencies = [
  "engine-kernels",
  "engine-quant",
  "half",
+ "rand 0.9.5",
 ]
 
 [[package]]
